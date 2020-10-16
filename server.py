@@ -2,20 +2,20 @@
 
 import socket
 
-HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 8080        # Port to listen on (non-privileged ports are > 1023)
+HOST = '127.0.0.1'
+PORT = 8080
 
 while True:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT))
         print('\nWaiting for connections...')
         s.listen()
-        conn, addr = s.accept()
-        with conn:
-            print('Connected by', addr)
+        connection, address = s.accept()
+        with connection:
+            print('Connected by', address)
             while True:
-                data = conn.recv(1024)
+                data = connection.recv(1024)
                 if not data:
                     break
                 print(data.decode())
-                conn.sendall(data)
+                connection.sendall(bytes('Connection Successful, Packet received from server', 'utf-8'))
