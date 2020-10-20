@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
 import socket
+import json
+import requests
 
-HOST = '127.0.0.1'
-PORT = 8080
+HOST = '52.172.195.80'
+PORT = 80
 
 while True:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -17,5 +19,6 @@ while True:
                 data = connection.recv(1024)
                 if not data:
                     break
-                print(data.decode())
+                resp = requests.post('https://samtrackapi.azurewebsites.net/api/Device/GetDevicData?DeviceData={}'.format(data.decode()))
+                print(resp)
                 connection.sendall(bytes('Connection Successful, Packet received from server', 'utf-8'))
